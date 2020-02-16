@@ -12,13 +12,27 @@
 # Why not skip generating _all_ the primes, and just try to find prime divisors from the off?
 
 # Yes. I think I'm going to go with that! Find divisors, loop through largest-to-smallest to find the largest prime.
-# Ah! So The Sieve will come in handy after all. :)
+# Ah! So The Sieve will come in handy after all. A sligtly modified version anyway. :)
 
 import math
 
 def largest_prime_factor(n):
+    # First, deal with some edge-cases:
+    if n <= 1:
+        if n >= 0:
+            print(f"{n} has no largest prime factor. Sorry!")
+            return
+        
+        print(f"Please input a positive integer!")
+        return
+
+    if sieve(n):
+        print(f"{n} is prime. Its largest prime factor is itself!")
+        return
+
+    # Then, run the alg as described above:
     divisors = []
-    for i in range(int(math.sqrt(n))):
+    for i in range(int(math.sqrt(n)) + 1):
         if i >= 2 and n % i == 0:
             divisors.append(i)
 
@@ -31,18 +45,10 @@ def sieve(n):
     visited = [False for i in range(int(math.sqrt(n)))]
     to_check = [i + 2 for i in range(int(math.sqrt(n)))]
 
-    ### Helper
-    def is_prime(n, m):
-        if n == 2: # Need a special case for n = 2!
-            return True
-        if n % m == 0:
-            return False
-
     for m in to_check:
         if not visited[m - 2]:
             visited[m - 2] = True
 
-            # print("A", n, m, is_prime(n, m))
             if is_prime(n, m):
                 return True
             if is_prime(n, m) == False:
@@ -52,7 +58,6 @@ def sieve(n):
             while m**2 + m*j < math.sqrt(n): # Can start checking from m^2 here as any multiple of m less than m^2 has already been visited.*
                 visited[(m**2 + m*j) - 2] = True
 
-                # print("B", n, m, is_prime(n, m))
                 if is_prime(n, m):
                     return True
                 if is_prime(n, m) == False:
@@ -62,6 +67,12 @@ def sieve(n):
 
     return True
 
+# Helper:
+def is_prime(n, m):
+    if n == 2: # Need a special case for n = 2!
+        return True
+    if n % m == 0:
+        return False
 
 n1 = 13195 # expect: 29
 n2 = 600851475143
