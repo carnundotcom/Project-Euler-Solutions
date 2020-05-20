@@ -90,3 +90,24 @@ function loopHorizontally(grid) {
 
   return maxProduct;
 }
+
+function loopDiagonally(grid) {
+  let maxProduct = 0;
+
+  for (let row = 0; row <= grid.length - 4; row++) {
+    for (let col = 0; col <= grid.length - 4; col++) {
+      const product = grid[row][col] * grid[row + 1][col + 1] * grid[row + 2][col + 2] * grid[row + 3][col + 3];
+      if (product > maxProduct) { maxProduct = product };
+    }
+  }
+
+  for (let row = 0; row <= grid.length - 4; row++) {
+    for (let col = grid.length - 1; col >= 0; col--) {
+      const product = grid[row][col] * grid[row + 1][col - 1] * grid[row  + 2][col - 2] * grid[row + 3][col - 3];
+      if (product > maxProduct) { maxProduct = product }; 
+    }
+  }
+  return maxProduct;
+}
+
+console.log(Math.max(loopVertically(grid), loopHorizontally(grid), loopDiagonally(grid)));
