@@ -63,7 +63,7 @@
 ; Imagine 4 open 'slots' in the sequence. Each can be filled by either a D or an R.
 ; So in total, there are 2^4 = 16 possible sequences.
 
-; But some of these—as before, with some of our binary trees—are sequences containing more than 2 Ds or 2Rs.
+; But some of these—as before, with some of our binary trees—are sequences containing more than 2 Ds or 2 Rs.
 ; In particular, there are 2(4C4) sequences containing all Ds or all Rs, and 2(4C3) sequences containing
 ; either 3 Ds or 3Rs.
 
@@ -75,7 +75,7 @@
 
 ; So, we're still dealing with ginat numbers! But thankfully we don't need to build giant binary trees!
 
-; Thankfully, Clojure supplies a handy construct for arbitrary-precision integers: BigInt!
+; Also, Clojure supplies a handy construct for arbitrary-precision integers: BigInt!
 
 (defn two-to-the-n [n]
   (loop [l 1 result 1]
