@@ -73,7 +73,7 @@
 ; Generalising this idea to an nxn grid gives:
 ;   total valid sequences = 2^(n^2) - 2((n^2)C(n^2)) - 2((n^2)C((n^2)-1)) - ... - 2((n^2)C(n+1))
 
-; So, we're still dealing with ginat numbers! But thankfully we don't need to build giant binary trees!
+; So, we're still dealing with giant numbers! But thankfully we don't need to build giant binary trees!
 
 ; Also, Clojure supplies a handy construct for arbitrary-precision integers: BigInt!
 
