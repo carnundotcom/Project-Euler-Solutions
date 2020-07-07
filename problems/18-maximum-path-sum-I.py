@@ -79,6 +79,35 @@ for i, row in enumerate(node_rows):
 
 # print(node_rows)
 
-# Looks good!
+# Looks good! Now, I need a function which returns the total of a given sub-triangle:
+def triangle_total(head):
+  total = head["value"]
+  to_visit = head["children"]
+  visited = set()
 
+  while len(to_visit) > 0:
+    next_node_indices = to_visit.pop(0)
+    next_node = node_rows[next_node_indices[0]][next_node_indices[1]]
 
+    total += next_node["value"]
+
+    for child_indices in next_node["children"]:
+      if child_indices not in visited and child_indices not in to_visit:
+        to_visit.append(child_indices)
+
+    visited.add(next_node_indices)
+
+  return total
+
+print(triangle_total(node_rows[0][0])) # => 5873
+
+# Again, looks good! But just to be sure:
+
+t = 0
+for row in node_rows:
+  for node in row:
+    t += node["value"]
+
+print(t) # => 5873
+
+# Nice! Alright.
