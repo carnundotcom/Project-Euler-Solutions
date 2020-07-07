@@ -134,8 +134,79 @@ def max_path_sum(head):
 
   return total
 
-print(max_path_sum(node_rows[0][0])) # => 883
+# print(max_path_sum(node_rows[0][0])) # => 883
 
 # So... it works! But it gives the wrong answer. :(
 
 # It seems, stepping through the debugger, that the path this algorithm takes is far from optimal. So it's back to the drawing board!
+# (On reflection, this makes sense: there's no reason the optimal path wouldn't go through smaller sub-triangles!)
+
+# Hmm. What we need is a way of _guaranteeing_ that a given choice is the right one.
+
+# Let's try to think this through on the smaller triangle:
+
+#    3
+#   7 4
+#  2 4 6
+# 8 5 9 3
+
+# We know the path will eventually look like this:
+
+#    [3]
+#   [7] 4
+#  2 [4] 6
+# 8 5 [9] 3
+
+# And the trick is to get there asking only simple, definite questions. Not questions which would only get at the _likelihood_
+# the path goes this way or that.
+
+# But, huh! We don't actually need to generate the path. We only need the max sum!
+# Meaning... we can 'collapse' the triangle as we go?
+
+# Yep!! Check this out:
+
+#    3
+#   7 4
+#  2 4 6
+# 8 5 9 3
+
+#   10  7
+#  2  4  6
+# 8  5  9  3
+
+#  12  14  13
+# 8   5   9   3
+
+# 20  19  23  17
+
+# Notice what we just did? The max sum has to be the max of the four numbers left over! (23, in this case.)
+# Reason being, at each stage we added the max parent to each child...
+# So the final numbers represent the numbers in the final row, _plus_ the total of the max paths leading to them.
+
+# I didn't put that very well. But I think you get me!
+
+# So let's code it up!
+
+def actual_max_path_sum():
+  totals = rows.copy() # (Note: We no longer need to worry about node_rows; rows is just fine!)
+
+  row_index = 1
+  while row_index < len(rows):
+    for i in range(row_index + 1):
+      max_parent = 0
+      if i == 0: # first in the row
+        max_parent = totals[row_index - 1][0]
+      elif i == row_index: # last in the row
+        max_parent = totals[row_index - 1][i - 1]
+      else:
+        max_parent = max(totals[row_index - 1][i - 1], totals[row_index - 1][i])
+
+      totals[row_index][i] += max_parent
+    
+    row_index += 1
+
+  return max(totals[-1])
+
+print(actual_max_path_sum())
+
+# And that does it!
