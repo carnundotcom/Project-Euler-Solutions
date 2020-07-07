@@ -82,7 +82,7 @@ for i, row in enumerate(node_rows):
 # Looks good! Now, I need a function which returns the total of a given sub-triangle:
 def triangle_total(head):
   total = head["value"]
-  to_visit = head["children"]
+  to_visit = [node_indices for node_indices in head["children"]]
   visited = set()
 
   while len(to_visit) > 0:
@@ -99,7 +99,7 @@ def triangle_total(head):
 
   return total
 
-print(triangle_total(node_rows[0][0])) # => 5873
+# print(triangle_total(node_rows[0][0])) # => 5873
 
 # Again, looks good! But just to be sure:
 
@@ -108,6 +108,34 @@ for row in node_rows:
   for node in row:
     t += node["value"]
 
-print(t) # => 5873
+# print(t) # => 5873
 
-# Nice! Alright.
+# Nice! Alright. Nowww, we need to step down the triangle:
+def max_path_sum(head):
+  total = head["value"]
+  child_indices = head["children"]
+
+  while len(child_indices) > 0:
+    left_child_indices = child_indices[0]
+    right_child_indices = child_indices[1]
+
+    left_child_node = node_rows[left_child_indices[0]][left_child_indices[1]]
+    right_child_node = node_rows[right_child_indices[0]][right_child_indices[1]]
+
+    left_triangle_total = triangle_total(left_child_node)
+    right_triangle_total = triangle_total(right_child_node)
+
+    if left_triangle_total >= right_triangle_total:
+      total += left_child_node["value"]
+      child_indices = left_child_node["children"]
+    else:
+      total += right_child_node["value"]
+      child_indices = right_child_node["children"]
+
+  return total
+
+print(max_path_sum(node_rows[0][0])) # => 883
+
+# So... it works! But it gives the wrong answer. :(
+
+# It seems, stepping through the debugger, that the path this algorithm takes is far from optimal. So it's back to the drawing board!
