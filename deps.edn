@@ -1,3 +1,4 @@
-{:paths ["files" "problems"]
+{:paths ["dev" "files" "problems"]
  :deps {;org.clojure/clojure {:mvn/version "1.10.3"}
-        org.clojure/data.csv {:mvn/version "1.0.0"}}}
+        org.clojure/data.csv {:mvn/version "1.0.0"}
+        com.hyperfiddle/rcf {:mvn/version "20220926-202227"}}}
