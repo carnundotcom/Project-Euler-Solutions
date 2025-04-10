@@ -33,7 +33,7 @@
    - 1/3 --> \"3\" (since 1/3 = 0.333333...)
    - 1/7 --> \"142857\" (since 1/7 = 0.142857142857...)"
   [candidate-n]
-  ; Effectively: do short short division, keeping track of the relevant parts...
+  ; Effectively: do short division, keeping track of the relevant parts...
   (let [divisor (denominator candidate-n)]
     (loop [carry        1
            carry-seen?  #{}
